@@ -46,13 +46,6 @@ Route::get('/auth/admin-pin', function () {
 Route::middleware(['auth', 'primary.admin'])->group(function () {
     Route::get('/admin/identity-requests', [AdminApprovalController::class, 'index'])->name('admin.identity.index');
     Route::post('/admin/identity-requests/decide', [AdminApprovalController::class, 'decide'])->name('admin.identity.decide');
-    // LAS NUEVAS PARA REGISTRO DE USUARIOS:
-    Route::get('/admin/users/create', function () {
-        return view('admin.users.create');
-    })->name('admin.users.create');
-    
-    // Apuntaremos a un controlador nuevo que crearemos en el siguiente paso
-    Route::post('/admin/users', [\App\Http\Controllers\Admin\UserManagementController::class, 'store'])->name('admin.users.store');
 });
 
 // --------------------------------------------------------

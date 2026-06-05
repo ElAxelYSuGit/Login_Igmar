@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +21,20 @@ class AuthController extends Controller
     $validated = $request->validate([
         'email' => ['required', 'email'],
         'password' => ['required', 'string'],
+        'recaptcha_token' => ['required', 'string'],
     ]);
+
+    $recaptchaResponse = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        'secret' => config('services.recaptcha.secret'),
+        'response' => $validated['recaptcha_token'],
+        'remoteip' => $request->ip()
+    ]);
+
+    if (!$recaptchaResponse->json('success')) {
+        throw ValidationException::withMessages([
+            'email' => ['Por favor completa el reCAPTCHA correctamente.'],
+        ]);
+    }
 
     $key = strtolower($validated['email']) . '|' . $request->ip();
 
@@ -52,18 +66,6 @@ class AuthController extends Controller
         'pending_admin_request_id',
         'auth_stage',
     ]);
-
-    // ADMIN PRIMARIO: acceso directo
-    if ($user->isPrimaryAdmin()) {
-        Auth::login($user);
-        $request->session()->regenerate();
-
-        return response()->json([
-            'message' => 'Admin primario autenticado correctamente.',
-            'role' => 'admin_primary',
-            'redirect' => '/admin/identity-requests',
-        ]);
-    }
 
     // INVITADO: acceso directo
     if ($user->isGuest()) {

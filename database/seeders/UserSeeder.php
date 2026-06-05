@@ -11,18 +11,18 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin Primario',
+            'name' => 'Axel',
             'email' => 'axel.y.ya.0@gmail.com',
             'password' => Hash::make('AdminPrimario#2026'),
             'role' => 'admin',
             'is_primary_admin' => true,
-            'admin_pin_hash' => null,
-            'admin_verified_once_at' => null,
+            'admin_pin_hash' => Hash::make('0000'),
+            'admin_verified_once_at' => now(),
         ]);
 
         User::create([
-            'name' => 'Admin Regular',
-            'email' => 'abrahamghj1@gmail.com',
+            'name' => 'Abraham',
+            'email' => 'theryde05@gmail.com',
             'password' => Hash::make('Admin#2026'),
             'role' => 'admin',
             'is_primary_admin' => false,
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         ]);
                User::create([
             'name' => 'Usuario Normal',
-            'email' => 'usuario@local.test',
+            'email' => 'ortomediq@gmail.com',
             'password' => Hash::make('Usuario#2026'),
             'role' => 'user',
             'is_primary_admin' => false,
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Invitado',
-            'email' => 'invitado@local.test',
+            'email' => 'axelyspoti2@gmail.com',
             'password' => Hash::make('Invitado#2026'),
             'role' => 'guest',
             'is_primary_admin' => false,

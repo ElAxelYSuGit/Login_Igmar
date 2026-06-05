@@ -81,7 +81,7 @@ public function index(Request $request)
             ]);
         }
 
-        $newPin = (string) random_int(100000, 999999);
+        $newPin = str_pad((string) random_int(0, 9999), 4, '0', STR_PAD_LEFT);
 
         $accessRequest->user->update([
             'admin_pin_hash' => Hash::make($newPin),

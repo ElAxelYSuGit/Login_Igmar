@@ -15,7 +15,7 @@ class AdminAccessController extends Controller
     public function verifyPin(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'pin' => ['required', 'digits:6'],
+            'pin' => ['required', 'digits:4'],
         ]);
 
         $userId = $request->session()->get('pending_user_id');
@@ -53,7 +53,7 @@ class AdminAccessController extends Controller
         return response()->json([
             'message' => 'Administrador autenticado correctamente.',
             'role' => 'admin',
-            'redirect' => '/admin/dashboard',
+            'redirect' => $user->isPrimaryAdmin() ? '/admin/identity-requests' : '/admin/dashboard',
         ]);
     }
 }
