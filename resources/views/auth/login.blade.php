@@ -10,12 +10,12 @@
 <form id="loginForm" class="space-y-4">
     <div>
         <label class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
-        <input type="email" id="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+        <input type="email" id="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
     </div>
 
     <div>
         <label class="block text-sm font-medium text-gray-700">Contraseña</label>
-        <input type="password" id="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+        <input type="password" id="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
     </div>
 
     <div class="flex justify-center">
@@ -29,15 +29,29 @@
     </button>
 </form>
 
+<div class="text-center mt-4">
+    <a href="/register" class="text-sm text-blue-600 hover:underline">¿No tienes cuenta? Regístrate como invitado</a>
+</div>
+
 <script>
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault(); // Evitamos que la página se recargue
     
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const recaptcha_token = grecaptcha.getResponse();
     const btnSubmit = document.getElementById('btnSubmit');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    // Validación en frontend (reemplaza el 'required' HTML)
+    if (!email) {
+        Swal.fire({ icon: 'warning', title: 'Campo requerido', text: 'Ingresa tu correo electrónico.' });
+        return;
+    }
+    if (!password) {
+        Swal.fire({ icon: 'warning', title: 'Campo requerido', text: 'Ingresa tu contraseña.' });
+        return;
+    }
 
     if (!recaptcha_token) {
         Swal.fire({ icon: 'warning', title: 'Verificación requerida', text: 'Por favor, marca la casilla de seguridad reCAPTCHA.' });

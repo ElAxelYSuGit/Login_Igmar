@@ -4,12 +4,24 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * Kernel HTTP de la aplicación.
+ *
+ * Define los middleware globales, de grupo y de alias que
+ * se ejecutan durante el ciclo de vida de cada petición HTTP.
+ * Incluye middleware de sanitización (SanitizeInput) y
+ * cabeceras seguras (SecureHeaders) como medidas de seguridad.
+ *
+ * @package App\Http
+ * @standard PHPDoc (PSR-5)
+ */
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * Middleware globales de la aplicación.
      *
-     * These middleware are run during every request to your application.
+     * Se ejecutan en TODAS las peticiones HTTP entrantes.
+     * Incluye sanitización de inputs y cabeceras de seguridad.
      *
      * @var array<int, class-string|string>
      */
@@ -21,10 +33,15 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\SanitizeInput::class,
+        \App\Http\Middleware\SecureHeaders::class,
     ];
 
     /**
-     * The application's route middleware groups.
+     * Grupos de middleware por tipo de ruta.
+     *
+     * 'web': Rutas con sesión, cookies, CSRF.
+     * 'api': Rutas stateless con throttling.
      *
      * @var array<string, array<int, class-string|string>>
      */
@@ -46,9 +63,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's middleware aliases.
-     *
-     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
+     * Aliases de middleware para uso en rutas individuales.
      *
      * @var array<string, class-string|string>
      */

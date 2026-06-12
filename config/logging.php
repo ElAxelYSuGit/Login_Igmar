@@ -126,6 +126,22 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        /*
+        |----------------------------------------------------------------------
+        | Canal de Auditoría de Seguridad (Requisito 7)
+        |----------------------------------------------------------------------
+        | Registra eventos de seguridad: intentos de login, registros de
+        | usuarios guest, aprobaciones/rechazos de identidad.
+        | Formato: Qué, Quién, Cuándo, Dónde (IP).
+        */
+        'audit' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/audit.log'),
+            'level' => 'debug',
+            'days' => 90,
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];

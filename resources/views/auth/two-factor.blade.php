@@ -9,7 +9,7 @@
 <form id="twoFactorForm" class="space-y-4">
     <div>
         <label class="block text-sm font-medium text-gray-700 text-center mb-2">Código OTP</label>
-        <input type="text" id="otp" maxlength="6" class="mt-1 block w-full px-4 py-3 text-center text-2xl tracking-widest border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="••••••" required>
+        <input type="text" id="otp" maxlength="6" class="mt-1 block w-full px-4 py-3 text-center text-2xl tracking-widest border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="••••••">
     </div>
 
     <button type="submit" id="btnSubmit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition font-medium">
@@ -21,9 +21,15 @@
 document.getElementById('twoFactorForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const otp = document.getElementById('otp').value;
+    const otp = document.getElementById('otp').value.trim();
     const btnSubmit = document.getElementById('btnSubmit');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+    // Validación en frontend (reemplaza el 'required' HTML)
+    if (!otp || otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+        Swal.fire({ icon: 'warning', title: 'Código inválido', text: 'Ingresa un código de exactamente 6 dígitos.' });
+        return;
+    }
 
     btnSubmit.disabled = true;
     btnSubmit.innerText = 'Validando...';

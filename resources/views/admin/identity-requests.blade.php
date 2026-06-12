@@ -62,7 +62,7 @@
                 <p class="text-sm text-gray-500 mb-4">Ingresa el código que el solicitante te dictó en persona.</p>
                 
                 <form id="decideForm" class="flex gap-4">
-                    <input type="text" id="request_code" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 tracking-widest text-lg font-mono" placeholder="Ingresar Código de 6 dígitos" required>
+                    <input type="text" id="request_code" class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 tracking-widest text-lg font-mono" placeholder="Ingresar Código de 6 dígitos">
                     
                     <select id="decision" class="w-48 px-4 py-2 border border-gray-300 rounded-md bg-white">
                         <option value="approved">Aprobar (Generar PIN)</option>

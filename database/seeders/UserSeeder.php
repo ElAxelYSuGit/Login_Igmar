@@ -6,8 +6,28 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Seeder de usuarios por defecto del sistema.
+ *
+ * Crea los usuarios iniciales con los roles predefinidos:
+ * - Admin primario (Axel): rol admin, is_primary_admin=true, PIN 0000.
+ * - Admin secundario (Abraham): rol admin, sin PIN (pendiente de verificación).
+ * - Usuario operativo: rol user, acceso 2FA.
+ * - Invitado: rol guest, acceso 1FA.
+ *
+ * Las contraseñas cumplen con los requisitos de seguridad:
+ * min 8 chars, mayúsculas, minúsculas, números y símbolos.
+ *
+ * @package Database\Seeders
+ * @standard PHPDoc (PSR-5)
+ */
 class UserSeeder extends Seeder
 {
+    /**
+     * Ejecuta el seeder y crea los usuarios por defecto.
+     *
+     * @return void
+     */
     public function run(): void
     {
         User::create([
@@ -29,7 +49,8 @@ class UserSeeder extends Seeder
             'admin_pin_hash' => null,
             'admin_verified_once_at' => null,
         ]);
-               User::create([
+
+        User::create([
             'name' => 'Usuario Normal',
             'email' => 'ortomediq@gmail.com',
             'password' => Hash::make('Usuario#2026'),
